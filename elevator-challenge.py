@@ -212,12 +212,12 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
                     path = x
             i+=1
         if (path != ""):
-            print("Path = ",path)
+            print(path)
             # print(RenderTree(root))
         elif (path == ""):
             print("Path not found, please run script again if you believe this to be incorrect")
 
-    # Arbitraty number passed into the function, higher number means more iterations, higher likelihood of retrieving the path
+    # Arbitrary number passed into the function, higher number means more iterations, higher likelihood of retrieving the path
     printResult(425)
 
 
