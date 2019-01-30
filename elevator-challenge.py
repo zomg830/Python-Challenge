@@ -1,5 +1,6 @@
 # Importing re to use later for searching via regular expressions
 # anytree will be used to create a tree data structure 
+# Algorithmically, I would describe the data structure operation as a B-tree, in which a node may have more than two children
 import re
 import anytree
 from anytree import Node, RenderTree
@@ -216,13 +217,12 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
         elif (path == ""):
             print("Path not found, please run script again if you believe this to be incorrect")
 
-    printResult(500)
+    # Arbitraty number passed into the function, higher number means more iterations, higher likelihood of retrieving the path
+    printResult(400)
 
 
-# findElevatorPath(states,"B","5-5")
-# findElevatorPath(states,"C","6-5")
-# findElevatorPath(states,"B","4-4")
-# findElevatorPath(states,"D","1-2")
-# findElevatorPath(states,"D","5-6") # Added t = 6 case to test
-# findElevatorPath(states,"C","3-7") # Added t = 7 case to test
-findElevatorPath(newStates,"A","6-7") # Added new elevator shaft, E
+findElevatorPath(states,"A","5-5") #Expected = AABDD
+findElevatorPath(states,"B","6-5") #Expected = Path not found
+findElevatorPath(states,"D","1-2") #Expected = DD
+findElevatorPath(states,"C","3-7") # Added t = 7 case to test, Expected = CCCCCDD
+findElevatorPath(newStates,"A","6-7") # Added new elevator shaft, E, Expected = AABDDEE
