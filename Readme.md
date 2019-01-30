@@ -8,13 +8,14 @@ Priorities:
 
 The following diagram (given as a multi-line string) is an elevator state – the state of an elevator system at a given point in time.  Dots represent an elevator shaft.  Letters (specifically A-Z) represent an elevator – for example, elevator A is on the 1st floor (1-indexed), and the following elevator state has 6 floors:
 
+```
  xx.x.x.xDxx
  xx.x.x.x.xx
  xx.x.x.x.xx
  xx.xBx.x.xx
  xx.x.xCx.xx
  xxAx.x.x.xx
-
+```
 
 Goal: Take as input a series of elevator states from an array, representing successive states of the elevator system from time t = {1,2,3…}.  Valid elevators are specified by the characters A-Z.
 
@@ -44,7 +45,7 @@ If there is a solution, the solution string is the *only* thing that should be r
 
 Sample Input:
 
-
+```
 elevatorStates = [
  // State @ t=1
  `xx.x.x.xDxx
@@ -86,9 +87,11 @@ elevatorStates = [
 
 startingElevator = "A"
 finalDestination = "5-5"
-
+```
 
 
 
 Sample Output:
+```
 "AABDD"
+```
