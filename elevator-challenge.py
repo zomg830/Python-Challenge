@@ -111,6 +111,8 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
         for str in stateTime:
             if (str != ""):
                 globals()[str+time.__str__()] = Node(stateTime[floor(stateTime,str)],parent=root,pos = (time,floor(stateTime,str)))
+                # This line of code instantiates new global variables in the form of "A0" (elevator+time)
+                # The Node created has a parent attribute of the root directory and a position attribute
     newNodes(elevatorStates[0])
 
     # Populates the nodes based on the states input, once again global variables not ideal (hacker-fix)
