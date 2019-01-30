@@ -43,7 +43,7 @@ states = [
  xx.x.x.x.xx
  xxAxBx.x.xx
  xx.x.x.x.xx''',
-# State @ t=6
+ # State @ t=6
  '''xx.x.x.x.xx
  xxAx.x.x.xx
  xx.xBx.x.xx
@@ -57,7 +57,7 @@ states = [
  xx.x.x.xDxx
  xx.xBx.x.xx
  xx.x.x.x.xx'''
-]
+ ]
 
 newStates = [
  # State @ t=1
@@ -95,7 +95,7 @@ newStates = [
  xx.x.x.x.x.xx
  xxAxBx.x.x.xx
  xx.x.x.x.xExx''',
-# State @ t=6
+ # State @ t=6
  '''xx.x.x.x.x.xx
  xxAx.x.x.x.xx
  xx.xBx.x.x.xx
@@ -218,7 +218,7 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
             print("Path not found, please run script again if you believe this to be incorrect")
 
     # Arbitraty number passed into the function, higher number means more iterations, higher likelihood of retrieving the path
-    printResult(400)
+    printResult(425)
 
 
 findElevatorPath(states,"A","5-5") #Expected = AABDD
