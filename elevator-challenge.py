@@ -3,6 +3,7 @@
 import re
 import anytree
 from anytree import Node, RenderTree
+import random
 
 # Elevator states inputs, had to change initial formatting to import multi-line data properly using the ''' data, data ''' notation 
 states = [
@@ -56,6 +57,58 @@ states = [
  xx.xBx.x.xx
  xx.x.x.x.xx'''
 ]
+
+newStates = [
+ # State @ t=1
+ '''xx.x.x.xDx.xx
+ xx.x.x.x.x.xx
+ xx.x.x.x.x.Exx
+ xx.xBx.x.x.xx
+ xx.x.xCx.x.xx
+ xxAx.x.x.x.xx''',
+ # State @ t=2
+ '''xx.x.x.x.x.xx
+ xx.x.x.x.x.xx
+ xxAx.x.x.x.xx
+ xx.xBx.x.xExx
+ xx.x.xCx.x.xx
+ xx.x.x.xDx.xx''',
+ # State @ t=3
+ '''xx.x.xCx.x.xx
+ xx.x.x.x.x.xx
+ xx.x.x.x.x.xx
+ xxAxBx.x.x.xx
+ xx.x.x.x.xExx
+ xx.x.x.xDx.xx''',
+ # State @ t=4
+ '''xx.x.xCx.x.xx
+ xx.x.x.x.xExx
+ xx.xBx.xDx.xx
+ xx.x.x.x.x.xx
+ xxAx.x.x.x.xx
+ xx.x.x.x.x.xx''',
+ # State @ t=5
+ '''xx.x.xCx.x.xx
+ xx.x.x.xDx.xx
+ xx.x.x.x.x.xx
+ xx.x.x.x.x.xx
+ xxAxBx.x.x.xx
+ xx.x.x.x.xExx''',
+# State @ t=6
+ '''xx.x.x.x.x.xx
+ xxAx.x.x.x.xx
+ xx.xBx.x.x.xx
+ xx.x.x.x.x.xx
+ xx.x.x.x.x.xx
+ xx.x.xCxDxExx''',
+ # State @ t=7
+ '''xx.x.x.x.xExx
+ xx.x.xCx.x.xx
+ xxAx.x.x.x.xx
+ xx.x.x.xDx.xx
+ xx.xBx.x.x.xx
+ xx.x.x.x.x.xx'''
+ ]
 
 # Primary function call
 def findElevatorPath(elevatorStates,startingElevator,finalDestination):
@@ -116,7 +169,7 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
     newNodes(elevatorStates[0])
 
     # Populates the nodes based on the states input, once again global variables not ideal (hacker-fix)
-    def addNodes(state,time,x):
+    def addNodes(state,time):
         for str in state[time]:
             # If statement for floor with only one elevator
             if (str != "" and len(str) == 1):
@@ -124,47 +177,52 @@ def findElevatorPath(elevatorStates,startingElevator,finalDestination):
             # If statement for floor with 2+ elevators
             elif (str != "" and len(str) > 1):
                     elevator = elevators(elevatorStates[time],floor(elevatorStates[time],str))
+                    # print(elevator)
                     for i in elevator:
+                            # Random number generation to iterate through all possible paths of the tree, kills performance but increases precision
+                            x = random.uniform(0,len(elevator)).__int__()
                             globals()[i+time.__str__()] =  Node(i,parent=globals()[str[x]+(time-1).__str__()],pos = (time,floor(state[time],i)))
 
-    def printResult():
-        # Populates the nodes into the tree data structure
-        time = 1
-        while (time < len(elevatorStates)):
-            # If statements are due to overwrite of node variables (e.g. A2) depending on the string
-            # index of the elevators on floors with 2+ elevators, probably will not scale well with additional elevator shafts
-            if (starting == "B" or starting == "D"):
-                addNodes(elevatorStates,time,0)
-                addNodes(elevatorStates,time,1)
-            elif (starting == "A" or starting == "C"):
-                addNodes(elevatorStates,time,1)
-                addNodes(elevatorStates,time,0)
-            time+=1
+    def printResult(attempts):
+        i = 0
+        path = ""
+        while (i < attempts):
+            # Populates the nodes into the tree data structure
+            time = 1
+            while (time < len(elevatorStates)):
+                # If statements are due to overwrite of node variables (e.g. A2) depending on the string
+                # index of the elevators on floors with 2+ elevators, probably will not scale well with additional elevator shafts
+                addNodes(elevatorStates,time)
+                time+=1
 
-        # Renders the tree for easier readability
-        # print(RenderTree(root))
-        result = anytree.search.findall_by_attr(root, finalPos, "pos")
-        # print("result = ", result)
-        if (result == ()):
-            print("error: no path found")
-        else:
-            for i in range(len(result)):
-                match = re.findall(r'/[A-Z]',result[i].__str__())
-                # print("match = ", match)
-            x=""
-            for str in match:
-                x += str[1]
-            if (starting == x[0]):
-                print(x)
-            else:
-                print("error: path not found")
+            # Renders the tree for easier readability
+            # print(RenderTree(root))
+            result = anytree.search.findall_by_attr(root, finalPos, "pos")
+            # print("result = ", result)
+            if (result != ()):
+                for i in range(len(result)):
+                    match = re.findall(r'/[A-Z]',result[i].__str__())
+                    # print("match = ", match)
+                x=""
+                for str in match:
+                    x += str[1]
+                if (starting == x[0]):
+                    # print(x)
+                    path = x
+            i+=1
+        if (path != ""):
+            print("Path = ",path)
+            # print(RenderTree(root))
+        elif (path == ""):
+            print("Path not found, please run script again if you believe this to be incorrect")
 
-    printResult()
+    printResult(500)
 
 
-findElevatorPath(states,"A","5-5")
-findElevatorPath(states,"C","6-5")
-findElevatorPath(states,"B","4-4")
-findElevatorPath(states,"D","1-2")
-findElevatorPath(states,"D","5-6") # Added t = 6 case to test
-findElevatorPath(states,"C","3-7") # Added t = 7 case to test
+# findElevatorPath(states,"B","5-5")
+# findElevatorPath(states,"C","6-5")
+# findElevatorPath(states,"B","4-4")
+# findElevatorPath(states,"D","1-2")
+# findElevatorPath(states,"D","5-6") # Added t = 6 case to test
+# findElevatorPath(states,"C","3-7") # Added t = 7 case to test
+findElevatorPath(newStates,"A","6-7") # Added new elevator shaft, E
